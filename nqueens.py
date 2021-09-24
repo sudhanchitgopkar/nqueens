@@ -1,9 +1,9 @@
-#imOAport statements 
+#import statements 
 import random
 import numpy as np
 from deap import creator, base, tools, algorithms
 
-nq = 20
+nq = 200
 
 def calcAttacks (indiv):
     attacks = 0 # num total attacks
