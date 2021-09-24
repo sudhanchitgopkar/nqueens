@@ -27,3 +27,48 @@ toolbox.register("indices", random.sample,range(nq),nq)
 toolbox.register("individual", tools.initIterate,
                  creator.Individual,toolbox.indices)
 ```
+
+# Fitness
+The fitness function used to evaluate individuals was simply calculating the number of conflicts that occurred on the board. This is to be calculated as follows:
+
+```
+Column Conflicts + Diagonal Conflicts
+```
+
+Recall that no row conflicts may occur due to the chosen representation. While a na ̈ıve conflict calculation would likely run in O(n2) time, it is possible to use an approach that works in linear (O(n)) time. This function is defined as follows:
+
+```python
+def calcAttacks (indiv):
+    attacks = 0 # num total attacks
+```
+To implement this function, three frequency-arrays of length n must be created containing the frequencies of queens in rows, main diagonals, and secondary diagonals. This is implemented below:
+
+```python
+# frequency tables
+rowFreq = np.zeros((nq))
+mDiagFreq = np.zeros((2*nq))
+sDiagFreq = np.zeros((2*nq))
+# populates frequency tables
+for i in range(0,nq):
+    rowFreq[indiv[i]] += 1
+    mDiagFreq[indiv[i] + i] += 1
+    sDiagFreq[nq - indiv[i] + i] += 1
+```
+
+Interestingly, it is possible to derive the number of conflicts from the frequency tables generated. This is calculated using the below code:
+
+```python
+# calculates conflicts based on frequencies
+for i in range(2 * nq):
+    if i < nq:
+        attacks += (rowFreq[i] * (rowFreq[i] - 1))/2
+    attacks += (mDiagFreq[i] * (mDiagFreq[i] - 1))/2
+```
+
+In amalgam, this creates a function that allows for the calculation of the used fitness (# conflicts) in linear time. The total number of conflicts can then be simply returned by the function:
+
+```python
+         return attacks,
+```
+
+
