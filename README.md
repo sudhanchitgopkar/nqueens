@@ -32,7 +32,7 @@ toolbox.register("individual", tools.initIterate,
 The fitness function used to evaluate individuals was simply calculating the number of conflicts that occurred on the board. This is to be calculated as follows:
 
 ```
-Column Conflicts + Diagonal Conflicts
+Column Conflicts + Diagonal Conflicts = Total Conflicts.
 ```
 
 Recall that no row conflicts may occur due to the chosen representation. While a na ̈ıve conflict calculation would likely run in O(n2) time, it is possible to use an approach that works in linear (O(n)) time. This function is defined as follows:
